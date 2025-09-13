@@ -1,0 +1,4 @@
+rootProject.name = 'step-runner'
+include 'app'
+include 'app'
+
