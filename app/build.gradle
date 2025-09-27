@@ -9,6 +9,8 @@ group = 'br.com.lucaslima'
 version = '0.0.1-SNAPSHOT'
 description = 'study project for executing flows through parameterizable steps'
 
+def awsSdkVersion = '2.34.2'
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
@@ -29,8 +31,14 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+
+    implementation group: 'software.amazon.awssdk', name: 'dynamodb', version: awsSdkVersion
+    implementation group: 'software.amazon.awssdk', name: 'sqs', version: awsSdkVersion
+
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
     testImplementation 'org.springframework.security:spring-security-test'
