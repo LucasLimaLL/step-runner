@@ -1,4 +1,4 @@
-package br.com.lucaslima.steprunner.adapters.http.authentication;
+package br.com.lucaslima.steprunner.adapters.http.out.authentication;
 
 import br.com.lucaslima.steprunner.application.domains.ResolutionContext;
 import br.com.lucaslima.steprunner.application.ports.out.AuthenticationStrategyPort;

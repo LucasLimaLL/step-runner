@@ -1,4 +1,4 @@
-package br.com.lucaslima.steprunner.adapters.http;
+package br.com.lucaslima.steprunner.adapters.http.out;
 
 import java.util.Map;
 

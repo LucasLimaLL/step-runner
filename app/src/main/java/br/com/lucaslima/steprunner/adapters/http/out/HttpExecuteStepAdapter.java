@@ -1,10 +1,9 @@
-package br.com.lucaslima.steprunner.adapters.http;
+package br.com.lucaslima.steprunner.adapters.http.out;
 
 import br.com.lucaslima.steprunner.application.domains.ResolutionContext;
 import br.com.lucaslima.steprunner.application.domains.Result;
 import br.com.lucaslima.steprunner.application.domains.StepType;
 import br.com.lucaslima.steprunner.application.domains.steps.HttpStep;
-import br.com.lucaslima.steprunner.application.domains.steps.JavaStep;
 import br.com.lucaslima.steprunner.application.domains.steps.Step;
 import br.com.lucaslima.steprunner.application.exceptions.AuthenticationTypeNotFoundException;
 import br.com.lucaslima.steprunner.application.exceptions.HttpCallException;
