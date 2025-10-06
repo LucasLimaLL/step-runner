@@ -4,8 +4,10 @@ import br.com.lucaslima.steprunner.application.domains.ResolutionContext;
 import br.com.lucaslima.steprunner.application.domains.Result;
 import br.com.lucaslima.steprunner.application.domains.StepType;
 import br.com.lucaslima.steprunner.application.domains.Workflow;
+import br.com.lucaslima.steprunner.application.domains.steps.HttpStep;
 import br.com.lucaslima.steprunner.application.domains.steps.SplitStep;
 import br.com.lucaslima.steprunner.application.domains.steps.Step;
+import br.com.lucaslima.steprunner.application.exceptions.IllegalStepException;
 import br.com.lucaslima.steprunner.application.exceptions.SplitListResolutionException;
 import br.com.lucaslima.steprunner.application.ports.out.ExecuteStepPort;
 import br.com.lucaslima.steprunner.application.ports.out.PlaceholderResolverPort;
@@ -32,7 +34,10 @@ public final class SplitExecuteStepAdapter implements ExecuteStepPort {
     @Override
     public Result execute(Step s, ResolutionContext resolutionContext) {
 
-        SplitStep step = (SplitStep) s;
+        if (!(s instanceof SplitStep step)) {
+            throw new IllegalStepException("Step is not of type SplitStep");
+        }
+        
         Object resolvedList = placeholderResolverPort.resolveObject(step.getListPath(), resolutionContext);
 
         if (!(resolvedList instanceof List<?> items)) {
@@ -45,7 +50,7 @@ public final class SplitExecuteStepAdapter implements ExecuteStepPort {
             resolutionContext.getStepResults().put("$item", item);
             resolutionContext.getStepResults().put("$index", index);
 
-            
+
             resolutionContext.getStepResults().remove("$item");
             resolutionContext.getStepResults().remove("$index");
             index++;

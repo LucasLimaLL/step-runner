@@ -5,6 +5,7 @@ import br.com.lucaslima.steprunner.application.domains.Result;
 import br.com.lucaslima.steprunner.application.domains.StepType;
 import br.com.lucaslima.steprunner.application.domains.steps.JavaStep;
 import br.com.lucaslima.steprunner.application.domains.steps.Step;
+import br.com.lucaslima.steprunner.application.exceptions.IllegalStepException;
 import br.com.lucaslima.steprunner.application.exceptions.JavaFunctionExecutionException;
 import br.com.lucaslima.steprunner.application.exceptions.JavaFunctionNotFoundException;
 import br.com.lucaslima.steprunner.application.ports.out.ExecuteStepPort;
@@ -37,7 +38,11 @@ public final class JavaExecuteStepAdapter implements ExecuteStepPort {
 
     @Override
     public Result execute(Step s, ResolutionContext resolutionContext) {
-        JavaStep step = (JavaStep) s;
+
+        if (!(s instanceof JavaStep step)) {
+            throw new IllegalStepException("Step is not of type JavaStep");
+        }
+
         JavaFunctionPort function = registryFunctions.get(step.getFunctionId());
 
         if (function == null) {

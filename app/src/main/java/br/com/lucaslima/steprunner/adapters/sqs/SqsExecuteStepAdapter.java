@@ -3,8 +3,10 @@ package br.com.lucaslima.steprunner.adapters.sqs;
 import br.com.lucaslima.steprunner.application.domains.ResolutionContext;
 import br.com.lucaslima.steprunner.application.domains.Result;
 import br.com.lucaslima.steprunner.application.domains.StepType;
+import br.com.lucaslima.steprunner.application.domains.steps.SplitStep;
 import br.com.lucaslima.steprunner.application.domains.steps.SqsStep;
 import br.com.lucaslima.steprunner.application.domains.steps.Step;
+import br.com.lucaslima.steprunner.application.exceptions.IllegalStepException;
 import br.com.lucaslima.steprunner.application.ports.out.ExecuteStepPort;
 import br.com.lucaslima.steprunner.application.ports.out.PlaceholderResolverPort;
 import org.springframework.stereotype.Component;
@@ -37,7 +39,11 @@ public final class SqsExecuteStepAdapter implements ExecuteStepPort {
 
     @Override
     public Result execute(Step s, ResolutionContext resolutionContext) {
-        SqsStep step = (SqsStep) s;
+
+        if (!(s instanceof SqsStep step)) {
+            throw new IllegalStepException("Step is not of type SqsStep");
+        }
+
         String queueName = Optional.ofNullable(placeholderResolverPort.resolveString(step.getQueueName(), resolutionContext))
                 .orElseThrow(() -> new IllegalArgumentException("queueName is required"));
         Object payload = placeholderResolverPort.resolveObject(step.getPayload(), resolutionContext);

@@ -5,6 +5,7 @@ import br.com.lucaslima.steprunner.application.domains.Result;
 import br.com.lucaslima.steprunner.application.domains.StepType;
 import br.com.lucaslima.steprunner.application.domains.steps.Step;
 import br.com.lucaslima.steprunner.application.domains.steps.TimeStep;
+import br.com.lucaslima.steprunner.application.exceptions.IllegalStepException;
 import br.com.lucaslima.steprunner.application.exceptions.TimeInterruptedException;
 import br.com.lucaslima.steprunner.application.ports.out.ExecuteStepPort;
 import org.springframework.stereotype.Component;
@@ -22,8 +23,10 @@ public final class TimeExecuteStepAdapter implements ExecuteStepPort {
     @Override
     public Result execute(Step s, ResolutionContext resolutionContext) {
 
-        TimeStep step = (TimeStep) s;
-
+        if (!(s instanceof TimeStep step)) {
+            throw new IllegalStepException("Step is not of type TimeStep");
+        }
+        
         try {
             Thread.sleep(step.getDurationMs());
             return Result.success(Map.of("sleptTimeInMs", step.getDurationMs()), Map.of(), STEP_SUCCESS_OK);
